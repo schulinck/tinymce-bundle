@@ -19,7 +19,7 @@ use Mopa\Bridge\Composer\Util\ComposerPathFinder;
  */
 class TinymceSymlinkCommand extends ContainerAwareCommand
 {
-    public static $stfalconTinymceBundleName = "stfalcon/tinymce-bundle";
+    public static $stfalconTinymceBundleName = "gibilogic/tinymce-bundle";
     public static $tinymceName = "tinymce/tinymce";
     public static $targetSuffix = '';
     public static $pathName = 'Tinymce';
