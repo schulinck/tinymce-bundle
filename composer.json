@@ -26,17 +26,16 @@
         }
     ],
     "require": {
-        "php":             ">=5.3.0",
+        "php": ">=5.3.0",
         "symfony/symfony": ">=2.1",
-        "tinymce/tinymce": "~4.0",
-        "mopa/composer-bridge": "~1.3"
+        "tinymce/tinymce": "~4.0"
     },
     "scripts": {
         "post-install-cmd": [
-            "Stfalcon\\Bundle\\TinymceBundle\\Composer\\ScriptHandler::postInstallSymlinkTinymce"
+            "Stfalcon\\Bundle\\TinymceBundle\\Composer\\InstallationHandler::createSymlink"
         ],
         "post-update-cmd": [
-            "Stfalcon\\Bundle\\TinymceBundle\\Composer\\ScriptHandler::postInstallSymlinkTinymce"
+            "Stfalcon\\Bundle\\TinymceBundle\\Composer\\InstallationHandler::createSymlink"
         ]
     },
     "autoload": {
