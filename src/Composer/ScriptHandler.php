@@ -6,11 +6,11 @@ use Composer\Script\Event;
 use Composer\Composer;
 
 /**
- * Class InstallationHandler.
+ * Class ScriptHandler.
  *
  * @package Stfalcon\Bundle\TinymceBundle\Composer
  */
-class InstallationHandler
+class ScriptHandler
 {
     const TINYMCE_PACKAGE_NAME = 'tinymce/tinymce';
 

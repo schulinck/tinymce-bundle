@@ -32,10 +32,10 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "Stfalcon\\Bundle\\TinymceBundle\\Composer\\InstallationHandler::createSymlink"
+            "Stfalcon\\Bundle\\TinymceBundle\\Composer\\ScriptHandler::createSymlink"
         ],
         "post-update-cmd": [
-            "Stfalcon\\Bundle\\TinymceBundle\\Composer\\InstallationHandler::createSymlink"
+            "Stfalcon\\Bundle\\TinymceBundle\\Composer\\ScriptHandler::createSymlink"
         ]
     },
     "autoload": {
