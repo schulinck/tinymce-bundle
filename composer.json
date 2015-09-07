@@ -40,9 +40,6 @@
         ]
     },
     "autoload": {
-        "psr-0": {
-            "Stfalcon\\Bundle\\TinymceBundle": ""
-        }
-    },
-    "target-dir" : "Stfalcon/Bundle/TinymceBundle"
+        "psr-4": { "Stfalcon\\Bundle\\TinymceBundle\\": "src/" }
+    }
 }
