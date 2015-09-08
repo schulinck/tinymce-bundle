@@ -30,6 +30,9 @@
         "symfony/symfony": ">=2.1",
         "tinymce/tinymce": "~4.0"
     },
+    "autoload": {
+        "psr-0": { "Stfalcon\\Bundle\\TinymceBundle\\": "src/" }
+    },
     "scripts": {
         "post-install-cmd": [
             "Stfalcon\\Bundle\\TinymceBundle\\Composer\\ScriptHandler::createSymlink"
@@ -37,8 +40,5 @@
         "post-update-cmd": [
             "Stfalcon\\Bundle\\TinymceBundle\\Composer\\ScriptHandler::createSymlink"
         ]
-    },
-    "autoload": {
-        "psr-4": { "Stfalcon\\Bundle\\TinymceBundle\\": "src/" }
     }
 }
