@@ -1,4 +1,4 @@
-<?
+<?php
 
 namespace Stfalcon\Bundle\TinymceBundle\Command;
 
