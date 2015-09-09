@@ -18,10 +18,10 @@ Add TinyMCE automatic symlinking
 
     "scripts": {
 	"post-install-cmd": [
-	    "Stfalcon\\Bundle\\TinymceBundle\\Composer\\ScriptHandler::postInstallSymlinkTinymce"
+	    "Stfalcon\\Bundle\\TinymceBundle\\Composer\\ScriptHandler::createSymlink"
 	],
 	"post-update-cmd": [
-	    "Stfalcon\\Bundle\\TinymceBundle\\Composer\\ScriptHandler::postInstallSymlinkTinymce"
+	    "Stfalcon\\Bundle\\TinymceBundle\\Composer\\ScriptHandler::createSymlink"
 	]
     },
 
