@@ -76,12 +76,17 @@ class StfalconTinymceExtension extends \Twig_Extension
      * TinyMce initializations
      *
      * @param array $options
+     * @param bool $replace
      * @return string
      */
-    public function tinymceInit($options = array())
+    public function tinymceInit($options = array(), $replace = false)
     {
         $config = $this->getParameter('stfalcon_tinymce.config');
-        $config = array_replace_recursive($config, $options);
+        if ($replace) {
+            $config = array_replace_recursive($config, $options);
+        } else {
+            $config = array_merge_recursive($config, $options);
+        }
 
         $this->baseUrl = (!isset($config['base_url']) ? null : $config['base_url']);
         /** @var $assets \Symfony\Component\Templating\Helper\CoreAssetsHelper */

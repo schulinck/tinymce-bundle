@@ -49,6 +49,8 @@ You can also override the default configuration by passing an option like this:
     {{ tinymce_init({'use_callback_tinymce_init': true, 'theme': {'simple': {'menubar': false}}}) }}
 ```
 
+This function allow a second parameter that let you chose if the given configuration must replace the orignal configuration or be merged it. `True` will replace, `False` will merge (default: `false`).
+
 ## Base configuration
 
 By default, tinymce is enabled for all textareas on the page. If you want to customize it, do the following:
