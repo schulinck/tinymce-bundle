@@ -70,7 +70,7 @@ By default, tinymce is enabled for all textareas on the page. If you want to cus
 Add class "tinymce" to textarea field to initialize TinyMCE.
 
 ```html
-    <textarea class="tinymce"></textarea>
+    <textarea class="tinymce" id="my-tinymce-textarea"></textarea>
 ```
 
 If you want to use jQuery version of the editor set the following parameters:
@@ -81,6 +81,8 @@ If you want to use jQuery version of the editor set the following parameters:
         tinymce_jquery: true
         ...
 ```
+
+__Attention:__ The `id` attribute on the `textarea` tag is mandatory if you are using the non-jQuery version.
 
 The option `include_jquery` allows you to load external jQuery library from the Google CDN. Set it to `true` if you haven't included jQuery on your page.
 
