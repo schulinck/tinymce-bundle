@@ -88,12 +88,10 @@ class StfalconTinymceExtension extends \Twig_Extension
         }
 
         $this->baseUrl = (!isset($config['base_url']) ? null : $config['base_url']);
-        /** @var $assets \Symfony\Component\Templating\Helper\CoreAssetsHelper */
-        $assets = $this->getService('templating.helper.assets');
 
         // Get path to tinymce script for the jQuery version of the editor
         if ($config['tinymce_jquery']) {
-            $config['jquery_script_url'] = $assets->getUrl(
+            $config['jquery_script_url'] = $this->getUrl(
                 $this->baseUrl . 'bundles/stfalcontinymce/vendor/tinymce/tinymce.jquery.min.js'
             );
         }
@@ -121,12 +119,15 @@ class StfalconTinymceExtension extends \Twig_Extension
         // If the language is not set in the config...
         if (!isset($config['language']) || empty($config['language'])) {
             // get it from the request
-            $config['language'] = $this->getService('request')->getLocale();
+            $request = $this->getService('request_stack')->getCurrentRequest();
+            if ($request) {
+                $config['language'] = $request->getLocale();
+            }
         }
 
         $config['language'] = LocaleHelper::getLanguage($config['language']);
 
-	$langDirectory = __DIR__ . '/../../Resources/public/vendor/tinymce-langs/';
+	    $langDirectory = __DIR__ . '/../../Resources/public/vendor/tinymce-langs/';
 
         // A language code coming from the locale may not match an existing language file
         if (!file_exists($langDirectory . $config['language'] . '.js')) {
@@ -134,15 +135,15 @@ class StfalconTinymceExtension extends \Twig_Extension
         }
 
         if (isset($config['language']) && $config['language']) {
-	    $languageUrl = $assets->getUrl(
-		$this->baseUrl . 'bundles/stfalcontinymce/vendor/tinymce-langs/' . $config['language'] . '.js'
-	    );
+            $languageUrl = $this->getUrl(
+                $this->baseUrl.'bundles/stfalcontinymce/vendor/tinymce-langs/'.$config['language'].'.js'
+            );
             // TinyMCE does not allow to set different languages to each instance
             foreach ($config['theme'] as $themeName => $themeOptions) {
                 $config['theme'][$themeName]['language'] = $config['language'];
-		$config['theme'][$themeName]['language_url'] = $languageUrl;
+                $config['theme'][$themeName]['language_url'] = $languageUrl;
             }
-	    $config['language_url'] = $languageUrl;
+            $config['language_url'] = $languageUrl;
         }
 
         if (isset($config['theme']) && $config['theme'])
@@ -195,16 +196,22 @@ class StfalconTinymceExtension extends \Twig_Extension
      */
     protected function getAssetsUrl($inputUrl)
     {
-        /** @var $assets \Symfony\Component\Templating\Helper\CoreAssetsHelper */
-        $assets = $this->getService('templating.helper.assets');
-
         $url = preg_replace('/^asset\[(.+)\]$/i', '$1', $inputUrl);
 
         if ($inputUrl !== $url) {
-            return $assets->getUrl($this->baseUrl . $url);
+            return $this->getUrl($this->baseUrl . $url);
         }
 
         return $inputUrl;
+    }
+
+    protected function getUrl($url)
+    {
+        if ($this->container->has('templating.helper.assets')) {
+            return $this->container->get('templating.helper.assets')->getUrl($url);
+        }
+
+        return $url;
     }
 
     /**
@@ -235,4 +242,3 @@ class StfalconTinymceExtension extends \Twig_Extension
 	return $locale;
     }
 }
-
