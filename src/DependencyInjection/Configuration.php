@@ -68,6 +68,9 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                     ->end()
+                    ->scalarNode('convert_urls')->defaultNull()->end()
+                    ->scalarNode('relative_urls')->defaultNull()->end()
+                    ->scalarNode('document_base_url')->defaultNull()->end()
                 ->end()
             ->end();
     }
