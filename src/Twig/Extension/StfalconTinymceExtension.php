@@ -211,6 +211,9 @@ class StfalconTinymceExtension extends \Twig_Extension
 
     protected function getUrl($url)
     {
+        if ($this->container->has('assets.packages')) {
+            return $this->container->get('assets.packages')->getUrl($url);
+        }
         if ($this->container->has('templating.helper.assets')) {
             return $this->container->get('templating.helper.assets')->getUrl($url);
         }
