@@ -23,12 +23,12 @@ class StfalconTinymceExtension extends Extension
         // Get default configuration of the bundle
         $config = $this->processConfiguration(new Configuration(), $configs);
 
-        if (empty($config['theme'])) {
-            $config['theme'] = array(
+        if (empty($config['config']['theme'])) {
+            $config['config']['theme'] = array(
                 'simple' => array()
             );
         } else {
-            foreach ($config['theme'] as &$bundleTheme) {
+            foreach ($config['config']['theme'] as &$bundleTheme) {
                 // Quick fix for the removed obsolete themes
                 if (isset($bundleTheme['theme']) && in_array($bundleTheme['theme'], array('advanced', 'simple'))) {
                     $bundleTheme['theme'] = 'modern';
