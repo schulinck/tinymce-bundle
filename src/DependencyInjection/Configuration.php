@@ -31,7 +31,7 @@ class Configuration implements ConfigurationInterface
                     // Set init to true to use callback on the event init
                     ->booleanNode('use_callback_tinymce_init')->defaultFalse()->end()
                     // Raw configuration for TinyMCE
-                    ->variableNode('config')
+                    ->variableNode('tinymce_config')
                         ->defaultValue($defaults)
                     ->end()
                 ->end()
