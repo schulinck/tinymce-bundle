@@ -87,35 +87,39 @@ class StfalconTinymceExtension extends \Twig_Extension
             $config = array_merge_recursive($config, $options);
         }
         
-        $tinyMCE_config = $options['tinymce_config'];
+        $tinyMCE_config = $config['tinymce_config'];
 
         $this->baseUrl = (!isset($tinyMCE_config['base_url']) ? null : $tinyMCE_config['base_url']);
 
         // Get path to tinymce script for the jQuery version of the editor
-        if ($tinyMCE_config['tinymce_jquery']) {
-            $tinyMCE_config['jquery_script_url'] = $this->getUrl(
+        if ($config['tinymce_jquery']) {
+            $config['jquery_script_url'] = $this->getUrl(
                 $this->baseUrl . 'bundles/stfalcontinymce/vendor/tinymce/tinymce.jquery.min.js'
             );
         }
 
         // Get local button's image
-        foreach ($tinyMCE_config['tinymce_buttons'] as &$customButton) {
-            if ($customButton['image']) {
-                $customButton['image'] = $this->getAssetsUrl($customButton['image']);
-            } else {
-                unset($customButton['image']);
-            }
+        if(isset($tinyMCE_config['tinymce_buttons']) && is_array($tinyMCE_config['tinymce_buttons'])){
+            foreach ($tinyMCE_config['tinymce_buttons'] as &$customButton) {
+                if ($customButton['image']) {
+                    $customButton['image'] = $this->getAssetsUrl($customButton['image']);
+                } else {
+                    unset($customButton['image']);
+                }
 
-            if ($customButton['icon']) {
-                $customButton['icon'] = $this->getAssetsUrl($customButton['icon']);
-            } else {
-                unset($customButton['icon']);
+                if ($customButton['icon']) {
+                    $customButton['icon'] = $this->getAssetsUrl($customButton['icon']);
+                } else {
+                    unset($customButton['icon']);
+                }
             }
         }
-
+        
         // Update URL to external plugins
-        foreach ($tinyMCE_config['external_plugins'] as &$extPlugin) {
-            $extPlugin['url'] = $this->getAssetsUrl($extPlugin['url']);
+        if(isset($tinyMCE_config['external_plugins']) && is_array($tinyMCE_config['external_plugins'])){
+            foreach ($tinyMCE_config['external_plugins'] as &$extPlugin) {
+                $extPlugin['url'] = $this->getAssetsUrl($extPlugin['url']);
+            }
         }
 
         // If the language is not set in the config...
