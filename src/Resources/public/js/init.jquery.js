@@ -72,6 +72,12 @@ function initTinyMCE(options) {
                 if(typeof options.document_base_url === 'string'){
                     settings.convert_urls = options.document_base_url;
                 }
+                if(typeof options.file_picker_callback === 'function'){
+                    settings.file_picker_callback = options.file_picker_callback;
+                }
+                if(typeof options.file_browser_callback === 'function'){
+                    settings.file_picker_callback = options.file_browser_callback;
+                }
 
                 textarea.tinymce(settings);
             });
