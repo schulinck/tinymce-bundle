@@ -57,7 +57,7 @@ This bundle comes with an extension for Twig. This makes it very easy to include
 You can also override the default configuration by passing an option like this:
 
 ```twig
-    {{ tinymce_init({'use_callback_tinymce_init': true, 'theme': {'simple': {'menubar': false}}}) }}
+    {{ tinymce_init({'use_callback_tinymce_init': true, tinymce_config:{'theme': {'simple': {'menubar': false}}}}) }}
 ```
 
 This function allow a second parameter that let you chose if the given configuration must replace the orignal configuration or be merged it. `True` will replace, `False` will merge (default: `false`).
@@ -109,12 +109,13 @@ You can change the language of your TinyMCE editor by adding language selector i
     stfalcon_tinymce:
         include_jquery: true
         tinymce_jquery: true
-        selector: ".tinymce"
-        language: %locale%
-        theme:
-            simple:
-                theme: "modern"
-        ...
+        tinymce_config:
+            selector: ".tinymce"
+            language: %locale%
+            theme:
+                simple:
+                    theme: "modern"
+            ...
 
 ```
 
@@ -133,37 +134,40 @@ According to the TinyMCE documentation you can configure your editor as you wish
     stfalcon_tinymce:
         include_jquery: true
         tinymce_jquery: true
-        selector: ".tinymce"
-        base_url: "http://yourdomain.com/" # this parameter may be included if you need to override the assets_base_urls for your template engine (to override a CDN base url)
-        # Get current language from the parameters.ini
-        language: %locale%
-        # Custom buttons
-        tinymce_buttons:
-            stfalcon: # Id of the first button
-                title: "Stfalcon"
-                image: "http://stfalcon.com/favicon.ico"
-        theme:
-            # Simple theme: same as default theme
-            simple: ~
-            # Advanced theme with almost all enabled plugins
-            advanced:
-                 plugins:
-                     - "advlist autolink lists link image charmap print preview hr anchor pagebreak"
-                     - "searchreplace wordcount visualblocks visualchars code fullscreen"
-                     - "insertdatetime media nonbreaking save table contextmenu directionality"
-                     - "emoticons template paste textcolor"
-                 toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
-                 toolbar2: "print preview media | forecolor backcolor emoticons | stfalcon | example"
-                 image_advtab: true
-                 templates:
-                     - {title: 'Test template 1', content: 'Test 1'}
-                     - {title: 'Test template 2', content: 'Test 2'}
-            # BBCode tag compatible theme (see http://www.bbcode.org/reference.php)
-            bbcode:
-                 plugins: ["bbcode, code, link, preview"]
-                 menubar: false
-                 toolbar1: "bold,italic,underline,undo,redo,link,unlink,removeformat,cleanup,code,preview"
+        tinymce_config:
+            selector: ".tinymce"
+            base_url: "http://yourdomain.com/" # this parameter may be included if you need to override the assets_base_urls for your template engine (to override a CDN base url)
+            # Get current language from the parameters.ini
+            language: %locale%
+            # Custom buttons
+            tinymce_buttons:
+                stfalcon: # Id of the first button
+                    title: "Stfalcon"
+                    image: "http://stfalcon.com/favicon.ico"
+            theme:
+                # Simple theme: same as default theme
+                simple: ~
+                # Advanced theme with almost all enabled plugins
+                advanced:
+                     plugins:
+                         - "advlist autolink lists link image charmap print preview hr anchor pagebreak"
+                         - "searchreplace wordcount visualblocks visualchars code fullscreen"
+                         - "insertdatetime media nonbreaking save table contextmenu directionality"
+                         - "emoticons template paste textcolor"
+                     toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+                     toolbar2: "print preview media | forecolor backcolor emoticons | stfalcon | example"
+                     image_advtab: true
+                     templates:
+                         - {title: 'Test template 1', content: 'Test 1'}
+                         - {title: 'Test template 2', content: 'Test 2'}
+                # BBCode tag compatible theme (see http://www.bbcode.org/reference.php)
+                bbcode:
+                     plugins: ["bbcode, code, link, preview"]
+                     menubar: false
+                     toolbar1: "bold,italic,underline,undo,redo,link,unlink,removeformat,cleanup,code,preview"
 ```
+
+> NOTE! All the options set in `tinymce_config` are passed _as-is_ to TinyMCE. So there is no restriction to set some TinyMCE custom config parameter.
 
 ### External plugins support
 
@@ -171,16 +175,17 @@ If you want to load some external plugins which are situated in your bundle, you
 
 ```yaml
     stfalcon_tinymce:
-        external_plugins:
-            filemanager:
-                url: "asset[bundles/acmedemo/js/tinymce-plugin/filemanager/editor_plugin.js]"
-            imagemanager:
-                url: "asset[bundles/acmedemo/js/tinymce-plugin/imagemanager/editor_plugin.js]"
-        ...
-        theme:
-            simple:
-                theme: "modern"
-                ...
+        tinymce_config:
+            external_plugins:
+                filemanager:
+                    url: "asset[bundles/acmedemo/js/tinymce-plugin/filemanager/editor_plugin.js]"
+                imagemanager:
+                    url: "asset[bundles/acmedemo/js/tinymce-plugin/imagemanager/editor_plugin.js]"
+            ...
+            theme:
+                simple:
+                    theme: "modern"
+                    ...
 ```
 
 ### Custom buttons
@@ -191,23 +196,24 @@ First of all you should describe it in your config:
 
 ```yaml
     stfalcon_tinymce:
-        tinymce_buttons:
-            stfalcon: # Id of the first button
-                title: "Stfalcon"
-                image: "http://stfalcon.com/favicon.ico"
-            hello_world: # Id of the second button
-                title: "Google"
-                image: "http://google.com/favicon.ico"
-                ...
-                or for the local images
-                ...
-                image: "asset[bundles/somebundle/images/icon.ico]"
+        tinymce_config:
+            tinymce_buttons:
+                stfalcon: # Id of the first button
+                    title: "Stfalcon"
+                    image: "http://stfalcon.com/favicon.ico"
+                hello_world: # Id of the second button
+                    title: "Google"
+                    image: "http://google.com/favicon.ico"
+                    ...
+                    or for the local images
+                    ...
+                    image: "asset[bundles/somebundle/images/icon.ico]"
 
-        theme:
-            simple:
-                     ...
-                 toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
-                 toolbar2: "print preview media | forecolor backcolor emoticons | stfalcon | hello_world"
+            theme:
+                simple:
+                         ...
+                     toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+                     toolbar2: "print preview media | forecolor backcolor emoticons | stfalcon | hello_world"
 ```
 
 And you should create a callback functions `tinymce_button_` for your buttons, based on their button ID:
@@ -235,11 +241,12 @@ If you specify a relative path, it is resolved in relation to the URL of the (HT
 
 ```yaml
     stfalcon_tinymce:
-        ...
-        theme:
-            simple:
-                content_css: "asset[bundles/mybundle/css/tinymce-content.css]"
-                ...
+        tinymce_config:
+            ...
+            theme:
+                simple:
+                    content_css: "asset[bundles/mybundle/css/tinymce-content.css]"
+                    ...
 ```
 
 > NOTE! Read Official TinyMCE documentation for more details: http://www.tinymce.com/wiki.php/Configuration:content_css
