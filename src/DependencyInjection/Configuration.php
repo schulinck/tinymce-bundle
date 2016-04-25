@@ -35,7 +35,26 @@ class Configuration implements ConfigurationInterface
                         ->defaultValue($defaults)
                     ->end()
                 ->end()
-            ->end();
+                ->beforeNormalization()
+                    ->ifArray()
+                    ->then(function ($config) {
+                        $default_config = $this->getTinymceDefaults();
+                        
+                        if(!isset($config['tinymce_config']['selector'])){
+                            $config['tinymce_config']['selector'] = $default_config['selector'];
+                        }
+                        
+                        if(!isset($config['tinymce_config']['theme'])){
+                            $config['tinymce_config']['theme'] = $default_config['theme'];
+                        }else{
+                            $config['tinymce_config']['theme'] = array_merge_recursive($default_config['theme'], $config['tinymce_config']['theme']);
+                        }
+                        
+                        return $config;
+                    })
+                ->end()
+            ->end()
+            ;
     }
 
     /**

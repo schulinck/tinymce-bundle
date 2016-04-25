@@ -4,7 +4,6 @@
  * @param options
  */
 function initTinyMCE(options) {
-    console.log(options, stfalcon_tinymce_config);
     if (typeof tinymce == 'undefined') return false;
     if (typeof options == 'undefined') options = stfalcon_tinymce_config;
     // Load when DOM is ready
