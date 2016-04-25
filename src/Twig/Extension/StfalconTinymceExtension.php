@@ -178,7 +178,7 @@ class StfalconTinymceExtension extends \Twig_Extension
 
         return $this->getService('templating')->render('StfalconTinymceBundle:Script:init.html.twig', array(
             'tinymce_config' => preg_replace(
-                '/"file_browser_callback":"([^"]+)"\s*/', 'file_browser_callback:$1',
+                '/"(file_browser_callback|file_picker_callback)":"([^"]+)"\s*/', '$1:$2',
                 json_encode($tinyMCE_config)
             ),
             'include_jquery' => $config['include_jquery'],
