@@ -99,21 +99,11 @@ function initTinyMCE(options) {
                 }
             }
             
-            if(typeof options.convert_urls === 'boolean'){
-                settings.convert_urls = options.convert_urls;
-            }
-            if(typeof options.relative_urls === 'boolean'){
-                settings.relative_urls = options.relative_urls;
-            }
-            if(typeof options.document_base_url === 'string'){
-                settings.convert_urls = options.document_base_url;
-            }
-            if(typeof options.file_picker_callback === 'function'){
-                settings.file_picker_callback = options.file_picker_callback;
-            }
-            if(typeof options.file_browser_callback === 'function'){
-                settings.file_picker_callback = options.file_browser_callback;
-            }
+            Object.keys(options).forEach(function(val){
+                if(typeof settings === 'undefined'){
+                    settings[val] = options[val];
+                }
+            });
             
             // Initialize textarea by its ID attribute
             tinymce

@@ -30,49 +30,31 @@ class Configuration implements ConfigurationInterface
                     ->booleanNode('tinymce_jquery')->defaultFalse()->end()
                     // Set init to true to use callback on the event init
                     ->booleanNode('use_callback_tinymce_init')->defaultFalse()->end()
-                    // Selector
-                    ->scalarNode('selector')->defaultValue('.tinymce')->end()
-                    // base url for content
-                    ->scalarNode('base_url')->end()
-                    // Default language for all instances of the editor
-                    ->scalarNode('language')->defaultNull()->end()
-                    ->arrayNode('theme')
-                        ->useAttributeAsKey('name')
-                        ->prototype('array')
-                            ->useAttributeAsKey('name')
-                            ->prototype('variable')->end()
-                        ->end()
-                        // Add default theme if it doesn't set
+                    // Raw configuration for TinyMCE
+                    ->variableNode('tinymce_config')
                         ->defaultValue($defaults)
                     ->end()
-                    // Configure custom TinyMCE buttons
-                    ->arrayNode('tinymce_buttons')
-                        ->useAttributeAsKey('name')
-                        ->prototype('array')
-                            ->addDefaultsIfNotSet()
-                            ->children()
-                                ->scalarNode('text')->defaultNull()->end()
-                                ->scalarNode('title')->defaultNull()->end()
-                                ->scalarNode('image')->defaultNull()->end()
-                                ->scalarNode('icon')->defaultNull()->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                    // Configure external TinyMCE plugins
-                    ->arrayNode('external_plugins')
-                        ->useAttributeAsKey('name')
-                        ->prototype('array')
-                            ->addDefaultsIfNotSet()
-                            ->children()
-                                ->scalarNode('url')->isRequired()->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                    ->scalarNode('convert_urls')->defaultNull()->end()
-                    ->scalarNode('relative_urls')->defaultNull()->end()
-                    ->scalarNode('document_base_url')->defaultNull()->end()
                 ->end()
-            ->end();
+                ->beforeNormalization()
+                    ->ifArray()
+                    ->then(function ($config) {
+                        $default_config = $this->getTinymceDefaults();
+                        
+                        if(!isset($config['tinymce_config']['selector'])){
+                            $config['tinymce_config']['selector'] = $default_config['selector'];
+                        }
+                        
+                        if(!isset($config['tinymce_config']['theme'])){
+                            $config['tinymce_config']['theme'] = $default_config['theme'];
+                        }else{
+                            $config['tinymce_config']['theme'] = array_merge_recursive($default_config['theme'], $config['tinymce_config']['theme']);
+                        }
+                        
+                        return $config;
+                    })
+                ->end()
+            ->end()
+            ;
     }
 
     /**
@@ -83,20 +65,23 @@ class Configuration implements ConfigurationInterface
     private function getTinymceDefaults()
     {
         return array(
-            'advanced' => array(
-                "theme"        => "modern",
-                "plugins"      => array(
-                    "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-                    "searchreplace wordcount visualblocks visualchars code fullscreen",
-                    "insertdatetime media nonbreaking save table contextmenu directionality",
-                    "emoticons template paste textcolor"
+            'selector'  => '.tinymce',
+            'theme' => array(
+                'advanced' => array(
+                    "theme"        => "modern",
+                    "plugins"      => array(
+                        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                        "searchreplace wordcount visualblocks visualchars code fullscreen",
+                        "insertdatetime media nonbreaking save table contextmenu directionality",
+                        "emoticons template paste textcolor"
+                    ),
+                    "toolbar1"     => "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify
+                                       | bullist numlist outdent indent | link image",
+                    "toolbar2"     => "print preview media | forecolor backcolor emoticons",
+                    "image_advtab" => true,
                 ),
-                "toolbar1"     => "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify
-                                   | bullist numlist outdent indent | link image",
-                "toolbar2"     => "print preview media | forecolor backcolor emoticons",
-                "image_advtab" => true,
+                'simple'   => array()
             ),
-            'simple'   => array()
         );
     }
 }
