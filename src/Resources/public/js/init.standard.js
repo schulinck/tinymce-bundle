@@ -45,15 +45,30 @@ function initTinyMCE(options) {
                 }
             }
         }
-
+        
+        var extend = function(destination, source){
+            for (var property in source){
+                if(typeof source[property] === 'object'){
+                    destination[property] = extend(destination[property]||{}, source[property]);
+                }else{
+                    destination[property] = source[property];
+                }
+            }
+            return destination;
+        }
+        
         for (i = 0; i < textareas.length; i++) {
+            
             // Get editor's theme from the textarea data
             var theme = textareas[i].getAttribute("data-theme") || 'simple';
             // Get selected theme options
-            var settings = (typeof options.theme[theme] != 'undefined')
+            var settings = extend({}, (typeof options.theme[theme] != 'undefined')
                 ? options.theme[theme]
-                : options.theme['simple'];
-
+                : options.theme['simple']);
+                
+            settings = extend(settings, options);
+            delete settings.theme;
+                
             settings.external_plugins = settings.external_plugins || {};
             for (var p = 0; p < externalPlugins.length; p++) {
                 settings.external_plugins[externalPlugins[p]['id']] = externalPlugins[p]['url'];
@@ -65,6 +80,8 @@ function initTinyMCE(options) {
             if (textareas[i].getAttribute('id') === '') {
                 textareas[i].setAttribute("id", "tinymce_" + Math.random().toString(36).substr(2));
             }
+            settings.selector = '#'+textareas[i].getAttribute('id');
+            
             // Add custom buttons to current editor
             if (typeof options.tinymce_buttons == 'object') {
                 settings.setup = function(editor) {
@@ -98,17 +115,8 @@ function initTinyMCE(options) {
                     }
                 }
             }
-            
-            Object.keys(options).forEach(function(val){
-                if(typeof settings === 'undefined'){
-                    settings[val] = options[val];
-                }
-            });
-            
-            // Initialize textarea by its ID attribute
-            tinymce
-                .createEditor(textareas[i].getAttribute('id'), settings)
-                .render();
+
+            tinymce.init(settings);
         }
     });
 }
