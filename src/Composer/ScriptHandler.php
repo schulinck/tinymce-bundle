@@ -2,7 +2,7 @@
 
 namespace Stfalcon\Bundle\TinymceBundle\Composer;
 
-use Composer\Script\CommandEvent;
+use Composer\Script\Event;
 use Sensio\Bundle\DistributionBundle\Composer\ScriptHandler as BaseScriptHandler;
 
 /**
@@ -15,7 +15,7 @@ class ScriptHandler extends BaseScriptHandler
     /**
      * @param \Composer\Script\CommandEvent $event
      */
-    public static function createSymlink(CommandEvent $event)
+    public static function createSymlink(Event $event)
     {
         $options = self::getOptions($event);
         $consoleDir = self::getConsoleDir($event, 'hello world');
