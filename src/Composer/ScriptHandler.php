@@ -13,7 +13,7 @@ use Sensio\Bundle\DistributionBundle\Composer\ScriptHandler as BaseScriptHandler
 class ScriptHandler extends BaseScriptHandler
 {
     /**
-     * @param \Composer\Script\CommandEvent $event
+     * @param Event $event
      */
     public static function createSymlink(Event $event)
     {
