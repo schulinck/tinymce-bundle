@@ -54,7 +54,8 @@ class Configuration implements ConfigurationInterface
      * @param array $config
      * @return array
      */
-    private function validateTinymceConfig($config){
+    private function validateTinymceConfig($config)
+    {
         $default_config = $this->getTinymceDefaults();
         
         if(!isset($config['selector'])){
@@ -65,6 +66,7 @@ class Configuration implements ConfigurationInterface
         }else{
             $config['theme'] = array_merge_recursive($default_config['theme'], $config['theme']);
         }
+        
         return $config;
     }
 

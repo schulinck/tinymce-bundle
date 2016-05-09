@@ -55,7 +55,7 @@ function initTinyMCE(options) {
                 }
             }
             return destination;
-        }
+        };
         
         for (i = 0; i < textareas.length; i++) {
             
@@ -67,7 +67,6 @@ function initTinyMCE(options) {
                 : options.theme['simple']);
                 
             settings = extend(settings, options);
-            delete settings.theme;
                 
             settings.external_plugins = settings.external_plugins || {};
             for (var p = 0; p < externalPlugins.length; p++) {
@@ -75,7 +74,7 @@ function initTinyMCE(options) {
             }
             // workaround for an incompatibility with html5-validation
             if (textareas[i].getAttribute("required") !== '') {
-                textareas[i].removeAttribute("required")
+                textareas[i].removeAttribute("required");
             }
             if (textareas[i].getAttribute('id') === '') {
                 textareas[i].setAttribute("id", "tinymce_" + Math.random().toString(36).substr(2));
