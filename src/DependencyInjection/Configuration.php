@@ -19,6 +19,10 @@ class Configuration implements ConfigurationInterface
     {
         $defaults = $this->getTinymceDefaults();
 
+        $validatorClosure = function($config){
+            return $this->validateTinymceConfig($config);
+        };
+        
         $treeBuilder = new TreeBuilder();
 
         return $treeBuilder
@@ -33,29 +37,39 @@ class Configuration implements ConfigurationInterface
                     // Raw configuration for TinyMCE
                     ->variableNode('tinymce_config')
                         ->defaultValue($defaults)
+                        ->validate()
+                        ->always()
+                            ->then($validatorClosure->bindTo($this))
+                        ->end()
                     ->end()
-                ->end()
-                ->beforeNormalization()
-                    ->ifArray()
-                    ->then(function ($config) {
-                        $default_config = $this->getTinymceDefaults();
-                        
-                        if(!isset($config['tinymce_config']['selector'])){
-                            $config['tinymce_config']['selector'] = $default_config['selector'];
-                        }
-                        
-                        if(!isset($config['tinymce_config']['theme'])){
-                            $config['tinymce_config']['theme'] = $default_config['theme'];
-                        }else{
-                            $config['tinymce_config']['theme'] = array_merge_recursive($default_config['theme'], $config['tinymce_config']['theme']);
-                        }
-                        
-                        return $config;
-                    })
                 ->end()
             ->end()
             ;
+        
     }
+    
+    /**
+     * Validate TinyMCE config and ensure that necessary default values are set
+     * 
+     * @param array $config
+     * @return array
+     */
+    private function validateTinymceConfig($config)
+    {
+        $default_config = $this->getTinymceDefaults();
+        
+        if(!isset($config['selector'])){
+            $config['selector'] = $default_config['selector'];
+        }
+        if(!isset($config['theme'])){
+            $config['theme'] = $default_config['theme'];
+        }else{
+            $config['theme'] = array_merge_recursive($default_config['theme'], $config['theme']);
+        }
+        
+        return $config;
+    }
+
 
     /**
      * Get default configuration of the each instance of editor

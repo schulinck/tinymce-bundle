@@ -17,16 +17,19 @@ function initTinyMCE(options) {
                     theme = textarea.attr('data-theme') || 'simple';
 
                 // Get selected theme options
-                var settings = (typeof options.theme[theme] != 'undefined')
+                var settings = {};
+                $.extend(settings, (typeof options.theme[theme] != 'undefined')
                     ? options.theme[theme]
-                    : options.theme['simple'];
+                    : options.theme['simple'], options);
+                delete settings.theme;
 
                 settings.script_url = options.jquery_script_url;
                 settings.external_plugins = settings.external_plugins || {};
                 // workaround for an incompatibility with html5-validation
-                if (textarea.is('[required]')) {
+                if (textarea.prop('required')) {
                     textarea.prop('required', false);
                 }
+                
                 settings.setup = function(ed) {
                     // Add custom buttons to current editor
                     $.each(options.tinymce_buttons || {}, function(id, opts) {
@@ -63,8 +66,6 @@ function initTinyMCE(options) {
                     }
                 };
                 
-                $.extend(settings, options);
-
                 textarea.tinymce(settings);
             });
         });
