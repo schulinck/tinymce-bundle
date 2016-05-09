@@ -21,7 +21,9 @@ function initTinyMCE(options) {
                 $.extend(settings, (typeof options.theme[theme] != 'undefined')
                     ? options.theme[theme]
                     : options.theme['simple'], options);
+                delete settings.theme;
 
+                settings.script_url = options.jquery_script_url;
                 settings.external_plugins = settings.external_plugins || {};
                 // workaround for an incompatibility with html5-validation
                 if (textarea.prop('required')) {

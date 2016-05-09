@@ -67,6 +67,7 @@ function initTinyMCE(options) {
                 : options.theme['simple']);
                 
             settings = extend(settings, options);
+            delete settings.theme;
                 
             settings.external_plugins = settings.external_plugins || {};
             for (var p = 0; p < externalPlugins.length; p++) {
