@@ -64,7 +64,7 @@ class Configuration implements ConfigurationInterface
         if(!isset($config['theme'])){
             $config['theme'] = $default_config['theme'];
         }else{
-            $config['theme'] = array_merge_recursive($default_config['theme'], $config['theme']);
+            $config['theme'] = array_replace_recursive($default_config['theme'], $config['theme']);
         }
         
         return $config;
