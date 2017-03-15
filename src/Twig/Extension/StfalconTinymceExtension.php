@@ -86,8 +86,9 @@ class StfalconTinymceExtension extends \Twig_Extension
         } else {
             $config = array_merge_recursive($config, $options);
         }
-        
+
         $tinyMCE_config = $config['tinymce_config'];
+        $tinyMCE_config['use_callback_tinymce_init'] = $config['use_callback_tinymce_init'];
 
         $this->baseUrl = (!isset($tinyMCE_config['base_url']) ? null : $tinyMCE_config['base_url']);
 
