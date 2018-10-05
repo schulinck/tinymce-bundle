@@ -41,6 +41,7 @@ class StfalconTinymceExtension extends Extension
 
         // load dependency injection config
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('command.xml');
         $loader->load('service.xml');
     }
 
